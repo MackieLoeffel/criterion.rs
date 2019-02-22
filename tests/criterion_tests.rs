@@ -12,7 +12,7 @@ use std::fs::File;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::rc::Rc;
-use std::time::{Duration, SystemTime};
+use std::time::{Duration, Instant, SystemTime};
 use tempdir::TempDir;
 use walkdir::WalkDir;
 
@@ -372,6 +372,15 @@ fn test_timing_loops() {
     short_benchmark(&dir).bench(
         "test_timing_loops",
         Benchmark::new("iter", |b| b.iter(|| 10))
+            .with_function("iter_custom", |b| {
+                b.iter_custom(|iters| {
+                    let start = Instant::now();
+                    for _ in 0..iters {
+                        10;
+                    }
+                    start.elapsed()
+                })
+            })
             .with_function("iter_with_setup", |b| {
                 b.iter_with_setup(|| vec![10], |v| v[0])
             })

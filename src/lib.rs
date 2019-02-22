@@ -344,6 +344,16 @@ impl Bencher {
         self.elapsed = start.elapsed();
     }
 
+    /// TODO
+    #[inline(never)]
+    pub fn iter_custom<R>(&mut self, mut routine: R)
+    where
+        R: FnMut(u64) -> Duration,
+    {
+        self.iterated = true;
+        self.elapsed = routine(self.iters);
+    }
+
     #[doc(hidden)]
     pub fn iter_with_setup<I, O, S, R>(&mut self, setup: S, routine: R)
     where
