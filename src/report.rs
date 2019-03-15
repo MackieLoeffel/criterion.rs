@@ -667,10 +667,14 @@ impl Report for CliReport {
                 );
             }
 
-            println!("{}{}", " ".repeat(24), explanation_str);
+            if self.verbose {
+                println!("{}{}", " ".repeat(24), explanation_str);
+            }
         }
 
-        self.outliers(&meas.avg_times);
+        if self.verbose {
+            self.outliers(&meas.avg_times);
+        }
 
         if self.verbose {
             fn format_short_estimate(estimate: &Estimate) -> String {
