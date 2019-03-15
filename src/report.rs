@@ -396,7 +396,7 @@ impl CliReport {
             print!("{}", s);
             stdout().flush().unwrap();
         } else {
-            println!("{}", s);
+            eprintln!("{}", s);
         }
     }
 
